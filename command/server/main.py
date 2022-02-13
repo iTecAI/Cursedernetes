@@ -13,5 +13,5 @@ if __name__ == "__main__":
         port=CONFIG["server"]["port"], 
         log_level=CONFIG["server"]["log_level"].lower(),
         reload=CONFIG["server"]["reload"],
-        access_logs=False
+        access_log=False
     )

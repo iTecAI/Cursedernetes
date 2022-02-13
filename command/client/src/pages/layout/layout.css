@@ -1,0 +1,36 @@
+.navbar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: inline-block;
+    width: 100%;
+    height: 48px;
+    background-color: var(--p);
+    z-index: 100;
+}
+
+.navbar .nf {
+    position: absolute;
+    top: 50%;
+    left: 6px;
+    transform: translate(0, -50%);
+}
+
+.navbar .page-title {
+    position: absolute;
+    top: 50%;
+    left: 40px;
+    transform: translate(0, -50%);
+    color: var(--pt);
+    font-size: 20px;
+}
+
+.page-content {
+    background-color: var(--b);
+    position: absolute;
+    top: 48px;
+    left: 0px;
+    display: inline-block;
+    width: 100%;
+    height: calc(100% - 48px);
+}

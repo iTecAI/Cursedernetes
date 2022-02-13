@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "main.py",
             "console": "integratedTerminal",
-            "cwd": "command/server"
+            "cwd": "/mnt/data1/Programming/Python/Python3/Cursedernetes/command/server"
         }
     ]
 }

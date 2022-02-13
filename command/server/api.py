@@ -3,6 +3,10 @@ from fastapi import FastAPI, Request, Response
 from fastapi_restful.tasks import repeat_every
 import time
 from tinydb import Query
+import os
+import json
+from starlette.status import *
+from util import *
 
 app = FastAPI()
 
@@ -23,5 +27,11 @@ def get_server_status():
     if len(rem) > 0:
         log.debug("Removed document ids: {}".format(str(rem)))
 
-
-
+@app.get("/theme/{theme}")
+async def get_theme(response: Response, theme: str):
+    if os.path.exists(os.path.join("themes", f"{theme}.json")):
+        with open(os.path.join("themes", f"{theme}.json"), 'r') as f:
+            return {f"--{k}": v for k, v in json.load(f).items()}
+    
+    response.status_code = HTTP_404_NOT_FOUND
+    return error(404, f"Theme {theme} not found")

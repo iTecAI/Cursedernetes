@@ -1,0 +1,8 @@
+peernet
+fastapi
+uvicorn
+sshfs
+tinydb
+proxmoxer
+fastapi-restful
+requests

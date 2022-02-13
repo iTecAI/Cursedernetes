@@ -1,0 +1,1 @@
+COLLECTIONS = ["containers", "statistics"]

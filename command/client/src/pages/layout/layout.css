@@ -9,11 +9,13 @@
     z-index: 100;
 }
 
-.navbar .nf {
+.navbar .logo {
     position: absolute;
     top: 50%;
     left: 6px;
     transform: translate(0, -50%);
+    width: 28px;
+    height: 28px;
 }
 
 .navbar .page-title {

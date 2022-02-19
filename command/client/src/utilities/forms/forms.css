@@ -1,0 +1,106 @@
+.form {
+    position: relative;
+    padding: 5px;
+    box-sizing: border-box;
+    display: inline-block;
+    width: 100%;
+    height: fit-content;
+}
+
+.field {
+    display: inline-block;
+    width: 100%;
+    height: 40px;
+    position: relative;
+    margin-left: 0px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 10px;
+    padding-top: 0px;
+    white-space: nowrap;
+    overflow: visible;
+}
+
+.field .label {
+    position: relative;
+    width: fit-content;
+    height: 100%;
+    display: table-cell;
+    box-sizing: border-box;
+    padding-top: 6px;
+    white-space: nowrap;
+    color: var(--bt);
+    vertical-align: middle;
+}
+
+.field .label .nf {
+    position: relative;
+    margin-top: -2px;
+    margin-right: 5px;
+    vertical-align: top;
+    color: var(--bt);
+    font-size: 20px;
+}
+.field .label .label-name {
+    vertical-align: top;
+    margin-top: -4px;
+}
+
+.field .field-input {
+    position: relative;
+    width: 100%;
+    height: 36px;
+    display: table-cell;
+    box-sizing: border-box;
+    padding-left: 10px;
+}
+
+.field .field-input .field-entry {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 36px;
+    box-sizing: border-box;
+    background-color: var(--b);
+    color: var(--bt);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px;
+    border: 1px solid var(--b);
+    border-radius: 18px;
+    margin-top: 0px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    margin-top: 2px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+.field .field-input > .field-entry:focus {
+    outline: none;
+}
+.field .field-input .field-entry:hover {
+    background-color: var(--bl);
+    border-color: var(--p);
+}
+
+.form-button {
+    display: inline-block;
+    width: 70%;
+    border: none;
+    height: 40px;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px;
+    background-color: var(--p);
+    color: var(--pt);
+    margin-left: 15%;
+    font-family: "Roboto";
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    position: relative;
+}
+.form-button:hover {
+    background-color: var(--pd);
+}

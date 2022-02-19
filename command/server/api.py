@@ -10,8 +10,6 @@ import json
 from starlette.status import *
 from util import *
 import secrets
-import copy
-
 from login_endpoint import router as loginRouter
 
 app = FastAPI()
@@ -108,5 +106,6 @@ async def get_theme(response: Response, theme: str):
     return error(404, f"Theme {theme} not found")
 
 @app.get("/status")
-async def get_status_root():
+async def get_status_root(request: Request):
+    #log.debug(f"Got status request from {request.state.username}")
     return db.statistics.search(where("time") > time.time() - CONFIG["proxmox"]["statistic_timer"])[0]

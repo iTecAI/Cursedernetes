@@ -4,12 +4,14 @@ import LayoutRaw from "./pages/layout/layoutRaw";
 import Login from "./pages/login/login";
 import { useEffect } from "react";
 import { get } from "./utilities/api";
+import { sha256 } from "js-sha256";
 
 function App() {
     useEffect(() => {
         if (!window.location.pathname.includes("/login")) {
             get("/status").then((data) => {
                 if (data.result) {
+                    alert("Error " + data.code + ": " + data.reason);
                     window.location.pathname = "/login";
                 }
             });

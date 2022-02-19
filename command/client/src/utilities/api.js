@@ -22,13 +22,16 @@ export async function get(
         }
     );
     if (
-        data.headers["x-new-salt"] &&
-        data.headers["x-new-salt"] !== "nosalt" &&
+        data.headers.get("x-new-salt") &&
+        data.headers.get("x-new-salt") !== "nosalt" &&
         window.localStorage.getItem("fingerprint")
     ) {
         window.localStorage.setItem(
             "fingerprint",
-            sha256(window.localStorage.getItem("fingerprint"))
+            sha256(
+                window.localStorage.getItem("fingerprint") +
+                    data.headers.get("x-new-salt")
+            )
         );
     }
     return data.json();
@@ -62,13 +65,16 @@ export async function post(
             }
         );
         if (
-            data.headers["x-new-salt"] &&
-            data.headers["x-new-salt"] !== "nosalt" &&
+            data.headers.get("x-new-salt") &&
+            data.headers.get("x-new-salt") !== "nosalt" &&
             window.localStorage.getItem("fingerprint")
         ) {
             window.localStorage.setItem(
                 "fingerprint",
-                sha256(window.localStorage.getItem("fingerprint"))
+                sha256(
+                    window.localStorage.getItem("fingerprint") +
+                        data.headers.get("x-new-salt")
+                )
             );
         }
         return data.json();
@@ -89,13 +95,16 @@ export async function post(
             }
         );
         if (
-            data.headers["x-new-salt"] &&
-            data.headers["x-new-salt"] !== "nosalt" &&
+            data.headers.get("x-new-salt") &&
+            data.headers.get("x-new-salt") !== "nosalt" &&
             window.localStorage.getItem("fingerprint")
         ) {
             window.localStorage.setItem(
                 "fingerprint",
-                sha256(window.localStorage.getItem("fingerprint"))
+                sha256(
+                    window.localStorage.getItem("fingerprint") +
+                        data.headers.get("x-new-salt")
+                )
             );
         }
         return data.json();

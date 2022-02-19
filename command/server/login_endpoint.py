@@ -66,6 +66,7 @@ async def login(model: LoginModel, response: Response):
         uuid = hashlib.sha256(os.urandom(32)).hexdigest()
         connection_salt = secrets.token_urlsafe(16)
         db.connections.remove(where("uuid") == model.uuid)
+        db.connections.remove(where("username") == model.username)
         db.connections.insert({
             "username": model.username,
             "uuid": hashlib.sha256((uuid + connection_salt).encode("utf-8")).hexdigest(),

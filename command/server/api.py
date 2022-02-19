@@ -109,3 +109,8 @@ async def get_theme(response: Response, theme: str):
 async def get_status_root(request: Request):
     #log.debug(f"Got status request from {request.state.username}")
     return db.statistics.search(where("time") > time.time() - CONFIG["proxmox"]["statistic_timer"])[0]
+
+@app.post("/logout")
+async def logout(request: Request):
+    db.connections.remove(where("username") == request.state.username)
+    return {}

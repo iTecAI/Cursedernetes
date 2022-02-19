@@ -1,1 +1,1 @@
-COLLECTIONS = ["containers", "statistics"]
+COLLECTIONS = ["containers", "statistics", "connections"]

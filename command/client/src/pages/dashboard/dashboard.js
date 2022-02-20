@@ -14,6 +14,7 @@ import {
     Legend,
     ArcElement,
 } from "chart.js";
+import { useParams } from "react-router-dom";
 
 ChartJS.register(
     CategoryScale,
@@ -26,11 +27,31 @@ ChartJS.register(
     ArcElement
 );
 
+function ViewItem(props) {
+    return (
+        <div
+            className={
+                "server-item" + (props.name === props.viewing ? " active" : "")
+            }
+            onClick={() => (window.location.pathname = props.name)}
+        >
+            <span
+                className={
+                    "online-indicator " +
+                    (props.data.status === "online" ? "online" : "offline")
+                }
+            ></span>
+            {props.name.toUpperCase()}
+        </div>
+    );
+}
+
 export default function Dashboard() {
     const [cstate, setCState] = useState({});
     const [historical, setHistorical] = useState({});
     const [resources, setResources] = useState([]);
-    const [viewing, setViewing] = useState(null);
+    const { node } = useParams();
+    const [viewing, setViewing] = useState(node || null);
 
     useEffect(() => {
         function getData() {
@@ -54,7 +75,7 @@ export default function Dashboard() {
         var intv = window.setInterval(getData, 2500);
 
         return () => window.clearInterval(intv);
-    }, [viewing]);
+    }, [viewing, node]);
 
     var historicalMemory = Object.keys(historical).map((v, i, a) => {
         var d = new Date(v * 1000);
@@ -85,7 +106,11 @@ export default function Dashboard() {
         }
     }, 0);
 
-    return viewing ? (
+    if (!cstate[viewing] && viewing != null && Object.keys(cstate).length > 0) {
+        window.location.pathname = "/";
+    }
+
+    return viewing && cstate[viewing] ? (
         <div className="dashboard paper">
             <div className="dashboard-title noselect paper-light">
                 <Icon name="server_network" />
@@ -100,6 +125,9 @@ export default function Dashboard() {
                         }
                     ></span>
                 </span>
+                <button className="node-settings">
+                    <Icon name="settings" />
+                </button>
             </div>
             <div className="dash-content noscroll">
                 <div className="memory-graph graph paper-light">
@@ -120,14 +148,19 @@ export default function Dashboard() {
                                     min:
                                         Math.min(
                                             ...historicalMemory.map((v) => v[1])
-                                        ) - 20 || 0,
+                                        ) - 10 || 0,
                                     max:
                                         Math.max(
                                             ...historicalMemory.map((v) => v[1])
-                                        ) + 20 || undefined,
+                                        ) + 10 || undefined,
                                 },
                             },
                             aspectRatio: 1,
+                            elements: {
+                                line: {
+                                    borderWidth: 2,
+                                },
+                            },
                         }}
                         data={{
                             labels: historicalMemory.map((v) => v[0]),
@@ -161,14 +194,19 @@ export default function Dashboard() {
                                     min:
                                         Math.min(
                                             ...historicalCPU.map((v) => v[1])
-                                        ) - 0.5 || 0,
+                                        ) - 0.2 || 0,
                                     max:
                                         Math.max(
                                             ...historicalCPU.map((v) => v[1])
-                                        ) + 0.5 || undefined,
+                                        ) + 0.2 || undefined,
                                 },
                             },
                             aspectRatio: 1,
+                            elements: {
+                                line: {
+                                    borderWidth: 2,
+                                },
+                            },
                         }}
                         data={{
                             labels: historicalCPU.map((v) => v[0]),
@@ -208,7 +246,7 @@ export default function Dashboard() {
                             plugins: {
                                 title: {
                                     display: true,
-                                    text: "GiB Disk Usage (Used/Free)",
+                                    text: "Disk Usage (GiB)",
                                 },
                                 legend: {
                                     display: false,
@@ -217,29 +255,57 @@ export default function Dashboard() {
                             aspectRatio: 1,
                         }}
                     />
-                    <span className="percent">
+                    <span className="percent noselect">
                         {Math.round((diskUsage / diskMax) * 10000) / 100}%
                     </span>
+                </div>
+                <div className="resources graph paper-light">
+                    <div className="resource-title paper-light noselect">
+                        <Icon name="hexagon_multiple" />
+                        <span className="title-text">VM / LXC</span>
+                    </div>
+                    <div className="items">
+                        {Object.values(resources).map((v, i, a) => {
+                            if (["lxc", "qemu"].includes(v.type)) {
+                                return (
+                                    <div className="res-item paper-light noselect">
+                                        <Icon
+                                            name={
+                                                v.type === "qemu"
+                                                    ? "monitor_multiple"
+                                                    : "hexagon"
+                                            }
+                                        />
+                                        <span className="res-name">
+                                            {v.name}
+                                        </span>
+                                        <span
+                                            className={
+                                                "running-indicator " +
+                                                (v.status === "running"
+                                                    ? "online"
+                                                    : "offline")
+                                            }
+                                        ></span>
+                                    </div>
+                                );
+                            } else {
+                                return "";
+                            }
+                        })}
+                    </div>
+                </div>
+                <div className="services graph paper-light">
+                    <div className="service-title paper-light noselect">
+                        <Icon name="cards" />
+                        <span className="title-text">Services</span>
+                    </div>
                 </div>
             </div>
             <div className="view-selector noselect noscroll">
                 {Object.keys(cstate).map((v, i, a) => {
                     return (
-                        <div
-                            className={
-                                "server-item" + (v === viewing ? " active" : "")
-                            }
-                        >
-                            <span
-                                className={
-                                    "online-indicator " +
-                                    (cstate[v].status === "online"
-                                        ? "online"
-                                        : "offline")
-                                }
-                            ></span>
-                            {v.toUpperCase()}
-                        </div>
+                        <ViewItem name={v} data={cstate[v]} viewing={viewing} />
                     );
                 })}
             </div>

@@ -27,6 +27,7 @@ function App() {
                     </Route>
                     <Route path="/" element={<Layout />}>
                         <Route index element={<Dashboard />} />
+                        <Route path=":node" element={<Dashboard />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

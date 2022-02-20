@@ -11,10 +11,12 @@ from starlette.status import *
 from util import *
 import secrets
 from login_endpoint import router as loginRouter
+from status_endpoint import router as statusRouter
 
 app = FastAPI()
 
 app.include_router(loginRouter, tags=["login"])
+app.include_router(statusRouter, tags=["status"])
 
 
 @app.middleware("http")
@@ -22,7 +24,6 @@ async def auth(request: Request, call_next):
     if "x-fingerprint" in request.headers.keys():
         if request.headers["x-fingerprint"] == "nofp":
             permissions: list[str] = CONFIG["server"]["unauthenticated_permissions"]
-            new_salt = "nosalt"
             user = None
         else:
             conn = db.connections.search(
@@ -45,11 +46,9 @@ async def auth(request: Request, call_next):
                 permissions: list[str] = CONFIG["server"]["users"][conn["username"]][
                     "permissions"
                 ]
-                new_salt = secrets.token_urlsafe(16)
                 user = conn["username"]
     else:
         permissions: list[str] = CONFIG["server"]["unauthenticated_permissions"]
-        new_salt = "nosalt"
         user = None
 
     if not any([request.url.path.startswith(i) for i in permissions]):
@@ -65,16 +64,6 @@ async def auth(request: Request, call_next):
     request.state.username = user
     response: Response = await call_next(request)
 
-    response.headers["x-new-salt"] = new_salt
-    if user:
-        db.connections.update(
-            {
-                "uuid": hashlib.sha256(
-                    (conn["uuid"] + new_salt).encode("utf-8")
-                ).hexdigest()
-            },
-            where("uuid") == conn["uuid"],
-        )
     response.headers["Access-Control-Allow-Origin"] = "*";
     return response
 
@@ -104,11 +93,6 @@ async def get_theme(response: Response, theme: str):
 
     response.status_code = HTTP_404_NOT_FOUND
     return error(404, f"Theme {theme} not found")
-
-@app.get("/status")
-async def get_status_root(request: Request):
-    #log.debug(f"Got status request from {request.state.username}")
-    return db.statistics.search(where("time") > time.time() - CONFIG["proxmox"]["statistic_timer"])[0]
 
 @app.post("/logout")
 async def logout(request: Request):

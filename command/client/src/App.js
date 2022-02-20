@@ -5,6 +5,7 @@ import Layout from "./pages/layout/layout";
 import Login from "./pages/login/login";
 import { useEffect } from "react";
 import { get } from "./utilities/api";
+import Dashboard from "./pages/dashboard/dashboard";
 
 function App() {
     useEffect(() => {
@@ -25,7 +26,7 @@ function App() {
                         <Route path="/login" element={<Login />} />
                     </Route>
                     <Route path="/" element={<Layout />}>
-                        <Route index element={<></>} />
+                        <Route index element={<Dashboard />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

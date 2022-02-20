@@ -21,19 +21,6 @@ export async function get(
             mode: "cors",
         }
     );
-    if (
-        data.headers.get("x-new-salt") &&
-        data.headers.get("x-new-salt") !== "nosalt" &&
-        window.localStorage.getItem("fingerprint")
-    ) {
-        window.localStorage.setItem(
-            "fingerprint",
-            sha256(
-                window.localStorage.getItem("fingerprint") +
-                    data.headers.get("x-new-salt")
-            )
-        );
-    }
     return data.json();
 }
 
@@ -64,19 +51,6 @@ export async function post(
                 mode: "cors",
             }
         );
-        if (
-            data.headers.get("x-new-salt") &&
-            data.headers.get("x-new-salt") !== "nosalt" &&
-            window.localStorage.getItem("fingerprint")
-        ) {
-            window.localStorage.setItem(
-                "fingerprint",
-                sha256(
-                    window.localStorage.getItem("fingerprint") +
-                        data.headers.get("x-new-salt")
-                )
-            );
-        }
         return data.json();
     } else {
         data = await fetch(
@@ -94,19 +68,6 @@ export async function post(
                 mode: "cors",
             }
         );
-        if (
-            data.headers.get("x-new-salt") &&
-            data.headers.get("x-new-salt") !== "nosalt" &&
-            window.localStorage.getItem("fingerprint")
-        ) {
-            window.localStorage.setItem(
-                "fingerprint",
-                sha256(
-                    window.localStorage.getItem("fingerprint") +
-                        data.headers.get("x-new-salt")
-                )
-            );
-        }
         return data.json();
     }
 }

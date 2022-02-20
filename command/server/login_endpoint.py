@@ -64,17 +64,15 @@ async def login(model: LoginModel, response: Response):
         ).hexdigest()
     ):
         uuid = hashlib.sha256(os.urandom(32)).hexdigest()
-        connection_salt = secrets.token_urlsafe(16)
         db.connections.remove(where("uuid") == model.uuid)
         db.connections.remove(where("username") == model.username)
         db.connections.insert({
             "username": model.username,
-            "uuid": hashlib.sha256((uuid + connection_salt).encode("utf-8")).hexdigest(),
+            "uuid": uuid,
             "type": "connection"
         })
         return {
-            "uuid": uuid,
-            "salt": connection_salt
+            "uuid": uuid
         }
     else:
         response.status_code = HTTP_403_FORBIDDEN

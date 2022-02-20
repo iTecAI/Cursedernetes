@@ -32,7 +32,7 @@ export default function Login() {
                         if (loginInfo.uuid) {
                             window.localStorage.setItem(
                                 "fingerprint",
-                                sha256(loginInfo.uuid + loginInfo.salt)
+                                loginInfo.uuid
                             );
                             window.location.pathname = "/";
                         } else {

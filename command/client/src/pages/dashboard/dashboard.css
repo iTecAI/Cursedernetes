@@ -59,3 +59,127 @@
     background-color: #d42020;
     border: 2px solid #c01c1c;
 }
+
+.dashboard .no-nodes {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-family: "Courier New", Courier, monospace;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    opacity: 0.15;
+    color: var(--bt);
+}
+
+.dashboard .dash-content {
+    position: absolute;
+    top: 48px;
+    left: 0px;
+    display: inline-block;
+    width: 100%;
+    height: calc(100% - 96px);
+    overflow: scroll;
+}
+@media only screen and (min-width: 1500px) {
+    .dashboard .dash-content .graph {
+        display: inline-block;
+        width: calc(25% - 20px);
+        height: fit-content;
+        overflow: hidden;
+        position: absolute;
+        top: 10px;
+        padding: 5px;
+        background-color: var(--b);
+        border-radius: 5px;
+    }
+    .dashboard .dash-content .memory-graph {
+        left: 10px;
+    }
+    .dashboard .dash-content .cpu-graph {
+        left: calc(25% + 10px);
+    }
+    .dashboard .dash-content .disk-graph {
+        left: calc(50% + 10px);
+    }
+}
+@media only screen and (max-width: 1499px) {
+    .dashboard .dash-content .graph {
+        display: inline-block;
+        width: calc(100% - 30px);
+        height: fit-content;
+        overflow: hidden;
+        position: relative;
+        margin-top: 10px;
+        margin-left: 10px;
+        padding: 5px;
+        background-color: var(--b);
+        border-radius: 5px;
+    }
+}
+.dashboard .dash-content .disk-graph .percent {
+    position: absolute;
+    top: calc(50% + 16px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: "Roboto", sans-serif;
+    font-size: 24px;
+    font-weight: 300;
+    opacity: 0.7;
+}
+
+.dashboard .dash-content .memory-graph canvas {
+    position: relative;
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+}
+
+.dashboard .view-selector {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    background-color: var(--b);
+    display: inline-block;
+    width: 100%;
+    height: 48px;
+    border-top: 1px solid var(--bd);
+    white-space: nowrap;
+    overflow-x: scroll;
+}
+.dashboard .view-selector .server-item {
+    position: relative;
+    margin: 0px;
+    border-right: 1px solid var(--bd);
+    display: inline-block;
+    height: 100%;
+    width: fit-content;
+    box-sizing: border-box;
+    padding: 14px;
+    padding-left: 36px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 20px;
+    opacity: 0.6;
+}
+.dashboard .view-selector .server-item.active,
+.dashboard .view-selector .server-item:hover {
+    opacity: 1;
+}
+.dashboard .view-selector .server-item .online-indicator {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translate(0, -50%);
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+.dashboard .view-selector .server-item .online-indicator.online {
+    background-color: #6ac222;
+    border: 2px solid #60b11f;
+}
+.dashboard .view-selector .server-item .online-indicator.offline {
+    background-color: #d42020;
+    border: 2px solid #c01c1c;
+}

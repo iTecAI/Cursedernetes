@@ -32,9 +32,7 @@ export default function LayoutRaw() {
                     className="logo noselect"
                     alt="Cursedernetes logo"
                 />
-                <span className="page-title noselect">
-                    {"Cursedernetes - [ " + window.location.hostname + " ]"}
-                </span>
+                <span className="page-title noselect">Cursedernetes</span>
             </div>
             <div
                 className="page-content noscroll"

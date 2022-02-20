@@ -1,5 +1,8 @@
 import json
+from charset_normalizer import CharsetMatch
 import tinydb
+from tinydb.storages import JSONStorage
+from tinydb.middlewares import CachingMiddleware
 import os
 from enums import *
 import logging
@@ -38,7 +41,7 @@ class DB:
     def __init__(self, folder: str, collections: list[str]):
         self.collections: dict[tinydb.TinyDB] = {}
         for c in collections:
-            self.collections[c] = tinydb.TinyDB(os.path.join(folder, c+".json"))
+            self.collections[c] = tinydb.TinyDB(os.path.join(folder, c+".json"), storage=CachingMiddleware(JSONStorage))
         self.folder = folder
     
     def __getattr__(self, key: str) -> tinydb.TinyDB:

@@ -1,1 +1,1 @@
-COLLECTIONS = ["containers", "statistics", "connections"]
+COLLECTIONS = ["containers", "statistics", "connections", "current_status"]

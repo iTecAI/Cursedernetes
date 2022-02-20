@@ -83,6 +83,19 @@ def get_server_status():
     )
     if len(rem) > 0:
         log.debug("Removed document ids: {}".format(str(rem)))
+    
+    res_data = pxapi.cluster.get("resources", type="vm")
+    res_data.extend(pxapi.cluster.get("resources", type="node"))
+    res_data.extend(pxapi.cluster.get("resources", type="storage"))
+    for r in res_data:
+        db.current_status.upsert(r, where("id") == r["id"])
+
+@app.on_event("startup")
+@repeat_every(seconds=1)
+def flush_dbs():
+    for d in db.collections.values():
+        d.storage.flush()
+    
 
 
 @app.get("/theme/{theme}")

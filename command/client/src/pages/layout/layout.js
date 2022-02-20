@@ -34,9 +34,7 @@ export default function Layout() {
                     className="logo noselect"
                     alt="Cursedernetes logo"
                 />
-                <span className="page-title noselect">
-                    {"Cursedernetes - [ " + window.location.hostname + " ]"}
-                </span>
+                <span className="page-title noselect">Cursedernetes</span>
                 <button
                     className="button logout noselect"
                     onClick={() => {

@@ -33,7 +33,7 @@ function ViewItem(props) {
             className={
                 "server-item" + (props.name === props.viewing ? " active" : "")
             }
-            onClick={() => (window.location.pathname = props.name)}
+            onClick={() => (window.location.pathname = "/node/" + props.name)}
         >
             <span
                 className={
@@ -42,12 +42,40 @@ function ViewItem(props) {
                 }
             ></span>
             {props.name.toUpperCase()}
+            <Icon name="server" />
+        </div>
+    );
+}
+
+function StorageViewItem(props) {
+    return (
+        <div
+            className={
+                "server-item" +
+                (props.data.config.name === props.viewing ? " active" : "")
+            }
+            onClick={() =>
+                (window.location.pathname =
+                    "/storage/" + props.data.config.name)
+            }
+        >
+            <span
+                className={
+                    "online-indicator " +
+                    (props.data.status.status === "online"
+                        ? "online"
+                        : "offline")
+                }
+            ></span>
+            {props.data.config.name.toUpperCase()}
+            <Icon name="harddisk" />
         </div>
     );
 }
 
 export default function Dashboard() {
     const [cstate, setCState] = useState({});
+    const [storages, setStorages] = useState({});
     const [historical, setHistorical] = useState({});
     const [resources, setResources] = useState([]);
     const { node } = useParams();
@@ -58,6 +86,7 @@ export default function Dashboard() {
             get("/status/").then((data) => {
                 if (data.node_status) {
                     setCState(data.node_status);
+                    setStorages(data.storage_data);
                     if (!viewing && Object.keys(data.node_status).length > 0) {
                         setViewing(Object.keys(data.node_status)[0]);
                     }
@@ -72,7 +101,7 @@ export default function Dashboard() {
         }
 
         getData();
-        var intv = window.setInterval(getData, 2500);
+        var intv = window.setInterval(getData, 10000);
 
         return () => window.clearInterval(intv);
     }, [viewing, node]);
@@ -80,14 +109,18 @@ export default function Dashboard() {
     var historicalMemory = Object.keys(historical).map((v, i, a) => {
         var d = new Date(v * 1000);
         return [
-            d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds(),
+            d.toTimeString().split(" ")[0].split(":")[0] +
+                ":" +
+                d.toTimeString().split(" ")[0].split(":")[1],
             historical[v].mem / 1000000,
         ];
     });
     var historicalCPU = Object.keys(historical).map((v, i, a) => {
         var d = new Date(v * 1000);
         return [
-            d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds(),
+            d.toTimeString().split(" ")[0].split(":")[0] +
+                ":" +
+                d.toTimeString().split(" ")[0].split(":")[1],
             historical[v].cpu * 100,
         ];
     });
@@ -113,7 +146,7 @@ export default function Dashboard() {
     return viewing && cstate[viewing] ? (
         <div className="dashboard paper">
             <div className="dashboard-title noselect paper-light">
-                <Icon name="server_network" />
+                <Icon name="server" />
                 <span className="server-name">
                     {viewing.toUpperCase()}
                     <span
@@ -302,10 +335,25 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
-            <div className="view-selector noselect noscroll">
+            <div
+                className="view-selector noselect noscroll"
+                onWheel={(e) => {
+                    e.preventDefault();
+                    e.currentTarget.scrollLeft += e.deltaY;
+                }}
+            >
                 {Object.keys(cstate).map((v, i, a) => {
                     return (
                         <ViewItem name={v} data={cstate[v]} viewing={viewing} />
+                    );
+                })}
+                {Object.keys(storages).map((v, i, a) => {
+                    return (
+                        <StorageViewItem
+                            name={v}
+                            data={storages[v]}
+                            viewing={viewing}
+                        />
                     );
                 })}
             </div>

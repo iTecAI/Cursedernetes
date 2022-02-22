@@ -6,6 +6,7 @@ import Login from "./pages/login/login";
 import { useEffect } from "react";
 import { get } from "./utilities/api";
 import Dashboard from "./pages/dashboard/dashboard";
+import StorageDashboard from "./pages/dashboard/storageDashboard";
 
 function App() {
     useEffect(() => {
@@ -27,7 +28,11 @@ function App() {
                     </Route>
                     <Route path="/" element={<Layout />}>
                         <Route index element={<Dashboard />} />
-                        <Route path=":node" element={<Dashboard />} />
+                        <Route path="node/:node" element={<Dashboard />} />
+                        <Route
+                            path="storage/:node"
+                            element={<StorageDashboard />}
+                        />
                     </Route>
                 </Routes>
             </BrowserRouter>

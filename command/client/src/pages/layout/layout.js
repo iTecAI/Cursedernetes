@@ -30,7 +30,7 @@ export default function Layout() {
         <>
             <div className="navbar paper">
                 <img
-                    src="assets/logo128.png"
+                    src="/assets/logo128.png"
                     className="logo noselect"
                     alt="Cursedernetes logo"
                 />

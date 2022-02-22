@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Request, Response
-from bootstrap import CONFIG, db
+from bootstrap import CONFIG, db, storage
 import time
 from tinydb import where
 from util import *
 from starlette.status import *
-import os
 
 router = APIRouter(prefix="/status")
 
@@ -17,9 +16,20 @@ async def get_status_root(request: Request):
     )
 
     try:
-        return data[0]
+        items = data[0]
     except:
         return {}
+
+    items["storage_data"] = {
+        k: {
+            "config": storage.storage_info(k),
+            "status": (db.storages.search(where("name") == k)[0]
+            if db.storages.count(where("name") == k) > 0
+            else {"status": "offline", "name": k, "used": 0, "root_files": []}),
+        }
+        for k in storage.storage_list()
+    }
+    return items
 
 
 @router.get("/{node}")
@@ -37,5 +47,7 @@ async def get_status_node(response: Response, node: str, seconds: int | None = 7
 
     return {
         "historical_data": data,
-        "resource_data": {r["id"]: r for r in db.current_status.search(where("node") == node)},
+        "resource_data": {
+            r["id"]: r for r in db.current_status.search(where("node") == node)
+        },
     }

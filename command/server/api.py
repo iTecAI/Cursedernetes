@@ -12,11 +12,13 @@ from util import *
 import secrets
 from login_endpoint import router as loginRouter
 from status_endpoint import router as statusRouter
+from storage_endpoint import router as storageRouter
 
 app = FastAPI()
 
 app.include_router(loginRouter, tags=["login"])
 app.include_router(statusRouter, tags=["status"])
+app.include_router(storageRouter, tags=["storage"])
 
 
 @app.middleware("http")
@@ -89,6 +91,10 @@ def get_server_status():
     res_data.extend(pxapi.cluster.get("resources", type="storage"))
     for r in res_data:
         db.current_status.upsert(r, where("id") == r["id"])
+
+    storage_data: dict = storage.storage_check()
+    for v in storage_data.values():
+        db.storages.upsert(v, where("name") == v["name"])
 
 @app.on_event("startup")
 @repeat_every(seconds=1)

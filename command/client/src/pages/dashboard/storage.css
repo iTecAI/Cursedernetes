@@ -26,6 +26,24 @@
         padding: 0px;
         background-color: var(--bl);
     }
+    .dashboard .dash-content .file-viewer .file-tree .file-node.file .mtime {
+        position: absolute;
+        top: 50%;
+        right: 120px;
+        transform: translate(0, -50%);
+        font-family: "Courier New", Courier, monospace;
+    }
+
+    .dashboard .dash-content .file-viewer .file-tree .file-node.file .sz {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translate(0, -50%);
+        font-family: "Courier New", Courier, monospace;
+    }
+    .dashboard .dash-content .file-viewer .file-tree .file-node .name {
+        padding-right: 350px;
+    }
 }
 @media only screen and (max-width: 1299px) {
     .dashboard .dash-content .config.graph {
@@ -49,6 +67,20 @@
         padding: 0px;
         background-color: var(--bl);
         margin-bottom: 5px;
+    }
+    .dashboard .dash-content .file-viewer .file-tree .file-node.file .mtime {
+        padding-top: 10px;
+        position: relative;
+        display: block;
+        padding-left: 50px;
+        font-family: "Courier New", Courier, monospace;
+    }
+
+    .dashboard .dash-content .file-viewer .file-tree .file-node.file .sz {
+        position: relative;
+        display: block;
+        padding-left: 50px;
+        font-family: "Courier New", Courier, monospace;
     }
 }
 

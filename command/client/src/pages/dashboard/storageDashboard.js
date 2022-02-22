@@ -94,7 +94,13 @@ function FileNode(props = { storage: null, info: null }) {
         get("/storage/" + props.storage + "/ls" + props.info.name).then((d) =>
             setChildren(
                 d.map((v, i, a) => {
-                    return <FileNode storage={"" + props.storage} info={v} />;
+                    return (
+                        <FileNode
+                            storage={"" + props.storage}
+                            info={v}
+                            key={v.name}
+                        />
+                    );
                 })
             )
         );
@@ -166,10 +172,15 @@ function FileNode(props = { storage: null, info: null }) {
         } else {
             icon = "file";
         }
+
+        var mtime = new Date(props.info.mtime).toString().split(" ");
+
         return (
             <div className="file-node file">
                 <Icon name={icon} />
                 <span className="name">{props.info.name.split("/").pop()}</span>
+                <span className="mtime">{mtime.slice(1, 5).join(" ")}</span>
+                <span className="sz">{filesize(props.info.size)}</span>
             </div>
         );
     }
@@ -186,9 +197,9 @@ function FileViewer(props = { storage: null }) {
     }, [props.storage]);
 
     return (
-        <div className="file-tree">
+        <div className="file-tree noscroll">
             {fileView.map((v, i, a) => (
-                <FileNode storage={props.storage} info={v} />
+                <FileNode storage={props.storage} info={v} key={v.name} />
             ))}
         </div>
     );

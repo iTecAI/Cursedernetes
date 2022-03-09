@@ -90,7 +90,7 @@ export default function Dashboard() {
                     if (!viewing && Object.keys(data.node_status).length > 0) {
                         setViewing(Object.keys(data.node_status)[0]);
                     }
-                    get("/status/" + viewing).then((data) => {
+                    get("/status/node/" + viewing).then((data) => {
                         if (data.historical_data) {
                             setHistorical(data.historical_data);
                             setResources(data.resource_data);
@@ -158,9 +158,6 @@ export default function Dashboard() {
                         }
                     ></span>
                 </span>
-                <button className="node-settings">
-                    <Icon name="settings" />
-                </button>
             </div>
             <div className="dash-content noscroll">
                 <div className="memory-graph graph paper-light">
@@ -342,6 +339,12 @@ export default function Dashboard() {
                     e.currentTarget.scrollLeft += e.deltaY;
                 }}
             >
+                <div
+                    className="server-item dash"
+                    onClick={() => (window.location.pathname = "/")}
+                >
+                    <Icon name="view_dashboard" />
+                </div>
                 {Object.keys(cstate).map((v, i, a) => {
                     return (
                         <ViewItem name={v} data={cstate[v]} viewing={viewing} />

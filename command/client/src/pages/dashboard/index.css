@@ -1,0 +1,9 @@
+@media only screen and (min-width: 1300px) {
+    .dash-content.grid {
+        display: grid;
+    }
+
+    .dash-content.grid .item {
+        gap: 10px;
+    }
+}

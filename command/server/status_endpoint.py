@@ -32,7 +32,7 @@ async def get_status_root(request: Request):
     return items
 
 
-@router.get("/{node}")
+@router.get("/node/{node}")
 async def get_status_node(response: Response, node: str, seconds: int | None = 7200):
     data = {
         d["time"]: d["node_status"][node]
@@ -50,4 +50,20 @@ async def get_status_node(response: Response, node: str, seconds: int | None = 7
         "resource_data": {
             r["id"]: r for r in db.current_status.search(where("node") == node)
         },
+    }
+
+@router.get("/summary")
+async def get_summary(request: Request):
+    storages = db.storages.all()
+    for s in range(len(storages)):
+        storages[s]["maxdisk"] = CONFIG["storage"][storages[s]["name"]]["maxsize"] * 1000000000
+        storages[s]["type"] = CONFIG["storage"][storages[s]["name"]]["type"]
+        storages[s]["root"] = CONFIG["storage"][storages[s]["name"]]["storage_root"]
+    return {
+        "motd": CONFIG["server"]["users"][request.state.username]["motd"],
+        "nodes": {n["id"]: n for n in db.current_status.search(where("type") == "node")},
+        "qemu": {q["id"]: q for q in db.current_status.search(where("type") == "qemu")},
+        "lxc": {l["id"]: l for l in db.current_status.search(where("type") == "lxc")},
+        "storages": {s["name"]: s for s in storages},
+        "users": [u["username"] for u in db.connections.search(where("type") == "connection")]
     }

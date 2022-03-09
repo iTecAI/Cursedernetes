@@ -356,6 +356,12 @@ export default function StorageDashboard() {
                 </div>
             </div>
             <div className="view-selector noselect noscroll">
+                <div
+                    className="server-item dash"
+                    onClick={() => (window.location.pathname = "/")}
+                >
+                    <Icon name="view_dashboard" />
+                </div>
                 {Object.keys(cstate).map((v, i, a) => {
                     return (
                         <ViewItem

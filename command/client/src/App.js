@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { get } from "./utilities/api";
 import Dashboard from "./pages/dashboard/dashboard";
 import StorageDashboard from "./pages/dashboard/storageDashboard";
+import Index from "./pages/dashboard/index";
 
 function App() {
     useEffect(() => {
@@ -27,7 +28,7 @@ function App() {
                         <Route path="/login" element={<Login />} />
                     </Route>
                     <Route path="/" element={<Layout />}>
-                        <Route index element={<Dashboard />} />
+                        <Route index element={<Index />} />
                         <Route path="node/:node" element={<Dashboard />} />
                         <Route
                             path="storage/:node"

@@ -61,30 +61,6 @@
     border: 2px solid #c01c1c;
 }
 
-.dashboard .dashboard-title .node-settings {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: none;
-    background-color: var(--b);
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-.dashboard .dashboard-title .node-settings:hover {
-    background-color: var(--bd);
-}
-.dashboard .dashboard-title .node-settings .nf {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: var(--bt);
-}
-
 .dashboard .no-nodes {
     position: absolute;
     top: 50%;
@@ -218,6 +194,11 @@
     background-color: var(--b);
     padding-top: 6px;
     box-sizing: border-box;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.dashboard .dash-content .resources .items .res-item:hover {
+    background-color: var(--bd);
 }
 .dashboard .dash-content .resources .items .res-item .res-name {
     display: inline-block;
@@ -316,6 +297,7 @@
     opacity: 0.6;
     cursor: pointer;
     transition: opacity 0.2s;
+    vertical-align: top;
 }
 .dashboard .view-selector .server-item .nf {
     position: absolute;
@@ -347,4 +329,15 @@
 .dashboard .view-selector .server-item .online-indicator.offline {
     background-color: #d42020;
     border: 2px solid #c01c1c;
+}
+
+.dashboard .view-selector .server-item.dash {
+    padding: 0px;
+    width: 48px;
+}
+.dashboard .view-selector .server-item.dash .nf {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

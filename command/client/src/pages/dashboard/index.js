@@ -50,6 +50,20 @@ function StorageViewItem(props) {
     );
 }
 
+function DashboardItem(props = {name: "", displayName: "", icon: "", children: []}) {
+    return (
+    <div className={"index-item " + props.name + " paper"} style={{gridArea: props.name}}>
+        <div className="container-title paper-light">
+            <Icon name={props.icon} />
+            <span className="text">{props.displayName}</span>
+        </div>
+        <div className="container-content">
+            {props.children}    
+        </div>
+    </div>
+    );
+}
+
 export default function Index() {
     const [cstate, setCState] = useState({});
     const [storages, setStorages] = useState({});
@@ -81,7 +95,11 @@ export default function Index() {
                 </span>
             </div>
             <div className="dash-content noscroll grid">
-                <div className="index-item info"></div>
+                <DashboardItem name="info" displayName="Information" icon="information"></DashboardItem>
+                <DashboardItem name="nodes" displayName="Nodes" icon="server"></DashboardItem>
+                <DashboardItem name="storages" displayName="Storages" icon="harddisk"></DashboardItem>
+                <DashboardItem name="rawvms" displayName="VMs" icon="monitor_multiple"></DashboardItem>
+                <DashboardItem name="services" displayName="Services" icon="hexagon_multiple"></DashboardItem>
             </div>
             <div
                 className="view-selector noselect noscroll"

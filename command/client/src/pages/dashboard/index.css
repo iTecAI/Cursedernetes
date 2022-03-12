@@ -1,9 +1,58 @@
-@media only screen and (min-width: 1300px) {
+.dash-content.grid .index-item.info {
+    grid-area: info;
+}
+.dash-content.grid .index-item.storages {
+    grid-area: storages;
+}
+.dash-content.grid .index-item.rawvms {
+    grid-area: rawvms;
+}
+.dash-content.grid .index-item.services {
+    grid-area: services;
+}
+.dash-content.grid .index-item.nodes {
+    grid-area: nodes;
+}
+
+@media (min-width: 1300px) {
     .dash-content.grid {
         display: grid;
+        grid-gap: 10px;
+        grid-template-areas: 
+        'info info rawvms services services'
+        'nodes storages rawvms services services'
+        'nodes storages rawvms services services';
+        padding: 10px;
+        box-sizing: border-box;
     }
+}
 
-    .dash-content.grid .item {
-        gap: 10px;
-    }
+.dash-content.grid .index-item {
+    background-color: var(--bl);
+    border-radius: 5px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.dash-content.grid .index-item .container-title {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 32px;
+    background-color: var(--b);
+}
+.dash-content.grid .index-item .container-title .nf {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 22px;
+    color: var(--bt);
+}
+.dash-content.grid .index-item .container-title .text {
+    position: absolute;
+    top: 50%;
+    left: 32px;
+    font-size: 16px;
+    color: var(--bt);
+    transform: translate(0, -50%);
 }

@@ -18,20 +18,42 @@
     .dash-content.grid {
         display: grid;
         grid-gap: 10px;
-        grid-template-areas: 
-        'info info rawvms services services'
-        'nodes storages rawvms services services'
-        'nodes storages rawvms services services';
+        grid-template-areas:
+            "info info rawvms services services"
+            "nodes storages rawvms services services"
+            "nodes storages rawvms services services";
         padding: 10px;
         box-sizing: border-box;
     }
+    .dash-content.grid .index-item {
+        background-color: var(--bl);
+        border-radius: 5px;
+        box-sizing: border-box;
+        position: relative;
+        min-width: 0;
+        min-height: 0;
+        position: relative;
+        overflow: hidden;
+    }
 }
-
-.dash-content.grid .index-item {
-    background-color: var(--bl);
-    border-radius: 5px;
-    box-sizing: border-box;
-    position: relative;
+@media (max-width: 1299px) {
+    .dash-content.grid {
+        display: inline-block;
+        padding: 10px;
+    }
+    .dash-content.grid .index-item {
+        background-color: var(--bl);
+        border-radius: 5px;
+        box-sizing: border-box;
+        position: relative;
+        display: block;
+        height: fit-content;
+        width: calc(100% - 20px);
+        margin-bottom: 10px;
+    }
+    .dash-content.grid .index-item:last-child {
+        margin-bottom: 20px;
+    }
 }
 
 .dash-content.grid .index-item .container-title {
@@ -55,4 +77,141 @@
     font-size: 16px;
     color: var(--bt);
     transform: translate(0, -50%);
+}
+.dashboard .dash-content .index-item .container-content {
+    padding: 5px;
+    overflow: scroll;
+    display: inline-block;
+    height: calc(100% - 32px);
+    width: 100%;
+}
+
+/* Info Box */
+
+.dashboard .dash-content .index-item.info .item-info {
+    position: relative;
+    display: block;
+    width: calc(100% - 10px);
+    height: 32px;
+    margin-bottom: 5px;
+    background-color: var(--b);
+    border-radius: 5px;
+    white-space: nowrap;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.dashboard .dash-content .index-item.info .item-info:last-child {
+    margin-bottom: 15px;
+}
+
+.dashboard .dash-content .index-item.info .item-info .item-title {
+    position: relative;
+    display: inline-block;
+    width: fit-content;
+    height: 32px;
+    padding-top: 6px;
+    padding-left: 36px;
+    padding-right: 10px;
+    background-color: var(--bd);
+    font-weight: 500;
+    box-sizing: border-box;
+    vertical-align: top;
+}
+.dashboard .dash-content .index-item.info .item-info .nf {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    font-size: 16px;
+    color: var(--bt);
+    transform: translate(0, -50%);
+    z-index: 50;
+}
+.dashboard .dash-content .index-item.info .item-info .item-value {
+    position: relative;
+    display: inline-block;
+    width: calc(100% - 100px);
+    height: 32px;
+    padding-top: 6px;
+    padding-left: 10px;
+    font-family: "Courier New", Courier, monospace;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Node Box */
+.dashboard .dash-content .index-item.nodes .item-node {
+    background-color: var(--b);
+    color: var(--bt);
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 5px;
+    position: relative;
+    display: block;
+    width: calc(100% - 10px);
+    box-sizing: border-box;
+    height: 48px;
+    font-family: "Courier New", Courier, monospace;
+}
+.dashboard .dash-content .index-item.info .item-node:last-child {
+    margin-bottom: 25px;
+}
+.dashboard .dash-content .index-item.nodes .item-node .online-indicator {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+.dashboard .dash-content .index-item.nodes .item-node .online-indicator.online {
+    background-color: #6ac222;
+    border: 2px solid #60b11f;
+}
+.dashboard
+    .dash-content
+    .index-item.nodes
+    .item-node
+    .online-indicator.offline {
+    background-color: #d42020;
+    border: 2px solid #c01c1c;
+}
+.dashboard .dash-content .index-item.nodes .item-node .name {
+    position: absolute;
+    top: 5px;
+    left: 26px;
+    font-size: 16px;
+    font-family: "Courier New", Courier, monospace;
+}
+.dashboard .dash-content .index-item.nodes .item-node .nf {
+    color: var(--bt);
+    font-size: 16px;
+    position: absolute;
+}
+.dashboard .dash-content .index-item.nodes .item-node .nf-mdi-memory {
+    bottom: 5px;
+    left: 5px;
+}
+.dashboard .dash-content .index-item.nodes .item-node .cpu {
+    color: var(--bt);
+    font-size: 14px;
+    position: absolute;
+    font-family: "Courier New", Courier, monospace;
+    bottom: 3px;
+    left: 26px;
+}
+.dashboard .dash-content .index-item.nodes .item-node .nf-mdi-chip {
+    bottom: 5px;
+    left: 110px;
+}
+.dashboard .dash-content .index-item.nodes .item-node .memory {
+    color: var(--bt);
+    font-size: 14px;
+    position: absolute;
+    font-family: "Courier New", Courier, monospace;
+    bottom: 3px;
+    left: 131px;
 }

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, Response
-from bootstrap import CONFIG, db, storage
-import time
+from bootstrap import CONFIG, db, storage, START_TIME
+import time, datetime
 from tinydb import where
 from util import *
 from starlette.status import *
@@ -59,11 +59,14 @@ async def get_summary(request: Request):
         storages[s]["maxdisk"] = CONFIG["storage"][storages[s]["name"]]["maxsize"] * 1000000000
         storages[s]["type"] = CONFIG["storage"][storages[s]["name"]]["type"]
         storages[s]["root"] = CONFIG["storage"][storages[s]["name"]]["storage_root"]
+    uptime = datetime.datetime.now() - datetime.datetime.fromtimestamp(START_TIME)
     return {
         "motd": CONFIG["server"]["users"][request.state.username]["motd"],
         "nodes": {n["id"]: n for n in db.current_status.search(where("type") == "node")},
         "qemu": {q["id"]: q for q in db.current_status.search(where("type") == "qemu")},
         "lxc": {l["id"]: l for l in db.current_status.search(where("type") == "lxc")},
         "storages": {s["name"]: s for s in storages},
-        "users": [u["username"] for u in db.connections.search(where("type") == "connection")]
+        "users": [u["username"] for u in db.connections.search(where("type") == "connection")],
+        "uptime": f"{uptime.days}d {uptime.seconds // 3600}h {uptime.seconds % 3600 // 60}m",
+        "current_user": request.state.username
     }

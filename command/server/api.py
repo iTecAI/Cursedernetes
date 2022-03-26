@@ -1,4 +1,3 @@
-import hashlib
 from bootstrap import *
 from fastapi import FastAPI, Request, Response
 from fastapi.responses import JSONResponse
@@ -9,7 +8,6 @@ import os
 import json
 from starlette.status import *
 from util import *
-import secrets
 from login_endpoint import router as loginRouter
 from status_endpoint import router as statusRouter
 from storage_endpoint import router as storageRouter
@@ -23,6 +21,7 @@ app.include_router(storageRouter, tags=["storage"])
 
 @app.middleware("http")
 async def auth(request: Request, call_next):
+    global PERMISSIONLESS_REQUESTS
     if "x-fingerprint" in request.headers.keys():
         if request.headers["x-fingerprint"] == "nofp":
             permissions: list[str] = CONFIG["server"]["unauthenticated_permissions"]
@@ -35,7 +34,6 @@ async def auth(request: Request, call_next):
             )
             if len(conn) == 0:
                 permissions: list[str] = CONFIG["server"]["unauthenticated_permissions"]
-                new_salt = "nosalt"
                 user = None
             else:
                 conn = conn[0]

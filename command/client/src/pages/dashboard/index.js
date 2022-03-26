@@ -50,17 +50,56 @@ function StorageViewItem(props) {
     );
 }
 
-function DashboardItem(props = {name: "", displayName: "", icon: "", children: []}) {
+function DashboardItem(
+    props = { name: "", displayName: "", icon: "", children: [] }
+) {
     return (
-    <div className={"index-item " + props.name + " paper"} style={{gridArea: props.name}}>
-        <div className="container-title paper-light">
+        <div
+            className={"index-item " + props.name + " paper noscroll"}
+            style={{ gridArea: props.name }}
+        >
+            <div className="container-title paper-light">
+                <Icon name={props.icon} />
+                <span className="text">{props.displayName}</span>
+            </div>
+            <div className="container-content noscroll">{props.children}</div>
+        </div>
+    );
+}
+
+function InfoItem(props = { icon: "", title: "", value: null }) {
+    return (
+        <div className="item-info">
             <Icon name={props.icon} />
-            <span className="text">{props.displayName}</span>
+            <span className="item-title">{props.title}</span>
+            <span className="item-value">{props.value}</span>
         </div>
-        <div className="container-content">
-            {props.children}    
+    );
+}
+
+function NodeItem(props = { status: null }) {
+    return (
+        <div className="item-node">
+            <span
+                className={
+                    "online-indicator " +
+                    (props.status.status === "online" ? "online" : "offline")
+                }
+            ></span>
+            <span className="name">{props.status.node.toUpperCase()}</span>
+            <Icon name="memory" />
+            <span className="cpu">
+                {Math.round((props.status.cpu / props.status.maxcpu) * 10000) /
+                    100}
+                %
+            </span>
+            <Icon name="chip" />
+            <span className="memory">
+                {Math.round((props.status.mem / props.status.maxmem) * 10000) /
+                    100}
+                %
+            </span>
         </div>
-    </div>
     );
 }
 
@@ -95,11 +134,75 @@ export default function Index() {
                 </span>
             </div>
             <div className="dash-content noscroll grid">
-                <DashboardItem name="info" displayName="Information" icon="information"></DashboardItem>
-                <DashboardItem name="nodes" displayName="Nodes" icon="server"></DashboardItem>
-                <DashboardItem name="storages" displayName="Storages" icon="harddisk"></DashboardItem>
-                <DashboardItem name="rawvms" displayName="VMs" icon="monitor_multiple"></DashboardItem>
-                <DashboardItem name="services" displayName="Services" icon="hexagon_multiple"></DashboardItem>
+                <DashboardItem
+                    name="info"
+                    displayName="Information"
+                    icon="information"
+                >
+                    <InfoItem
+                        icon="account"
+                        title="Current User"
+                        value={summary.current_user}
+                    />
+                    <InfoItem
+                        icon="account_multiple"
+                        title="Logged In"
+                        value={(summary.users || []).join(", ")}
+                    />
+                    <InfoItem
+                        icon="clock"
+                        title="Uptime"
+                        value={summary.uptime}
+                    />
+                    <InfoItem
+                        icon="server"
+                        title="# Nodes"
+                        value={Object.keys(summary.nodes || {}).length}
+                    />
+                    <InfoItem
+                        icon="harddisk"
+                        title="# Storages"
+                        value={Object.keys(summary.storages || {}).length}
+                    />
+                    <InfoItem
+                        icon="monitor_multiple"
+                        title="# VMs"
+                        value={
+                            Object.keys(summary.qemu || {}).length +
+                            Object.keys(summary.lxc || {}).length +
+                            " (" +
+                            Object.keys(summary.qemu || {}).length +
+                            " QEMU, " +
+                            Object.keys(summary.lxc || {}).length +
+                            " LXC)"
+                        }
+                    />
+                    <InfoItem
+                        icon="hexagon_multiple"
+                        title="# Services"
+                        value={0}
+                    />
+                </DashboardItem>
+                <DashboardItem name="nodes" displayName="Nodes" icon="server">
+                    {Object.values(summary.nodes || {}).map((v, i, a) => (
+                        <NodeItem status={v} />
+                    ))}
+                </DashboardItem>
+                <DashboardItem
+                    name="storages"
+                    displayName="Storages"
+                    icon="harddisk"
+                ></DashboardItem>
+                <DashboardItem
+                    name="rawvms"
+                    displayName="VMs"
+                    icon="monitor_multiple"
+                ></DashboardItem>
+                <DashboardItem
+                    name="services"
+                    displayName="Services"
+                    icon="hexagon_multiple"
+                ></DashboardItem>
             </div>
             <div
                 className="view-selector noselect noscroll"

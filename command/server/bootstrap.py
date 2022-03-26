@@ -9,7 +9,9 @@ from enums import *
 import logging
 from sshfs import SSHFileSystem
 from proxmoxer import ProxmoxAPI
+import time
 
+START_TIME = time.time()
 
 class ConfigurationError(ValueError):
     pass
@@ -264,4 +266,4 @@ pxapi = ProxmoxAPI(
     verify_ssl=False,
 )
 
-__all__ = ["log", "CONFIG", "db", "pxapi", "storage"]
+__all__ = ["log", "CONFIG", "db", "pxapi", "storage", "START_TIME"]

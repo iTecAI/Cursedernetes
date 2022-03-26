@@ -58,7 +58,7 @@ function DashboardItem(
             className={"index-item " + props.name + " paper noscroll"}
             style={{ gridArea: props.name }}
         >
-            <div className="container-title paper-light">
+            <div className="container-title paper-light noselect">
                 <Icon name={props.icon} />
                 <span className="text">{props.displayName}</span>
             </div>
@@ -71,7 +71,7 @@ function InfoItem(props = { icon: "", title: "", value: null }) {
     return (
         <div className="item-info">
             <Icon name={props.icon} />
-            <span className="item-title">{props.title}</span>
+            <span className="item-title noselect">{props.title}</span>
             <span className="item-value">{props.value}</span>
         </div>
     );
@@ -79,7 +79,10 @@ function InfoItem(props = { icon: "", title: "", value: null }) {
 
 function NodeItem(props = { status: null }) {
     return (
-        <div className="item-node">
+        <div
+            className="item-node paper-light"
+            onClick={(e) => window.open("/node/" + props.status.node, "_self")}
+        >
             <span
                 className={
                     "online-indicator " +
@@ -88,16 +91,76 @@ function NodeItem(props = { status: null }) {
             ></span>
             <span className="name">{props.status.node.toUpperCase()}</span>
             <Icon name="memory" />
-            <span className="cpu">
+            <span className="cpu noselect">
                 {Math.round((props.status.cpu / props.status.maxcpu) * 10000) /
                     100}
                 %
             </span>
             <Icon name="chip" />
-            <span className="memory">
+            <span className="memory noselect">
                 {Math.round((props.status.mem / props.status.maxmem) * 10000) /
                     100}
                 %
+            </span>
+        </div>
+    );
+}
+
+function StorageItem(props = { status: null }) {
+    return (
+        <div
+            className="item-storage paper-light"
+            onClick={(e) =>
+                window.open("/storage/" + props.status.name, "_self")
+            }
+        >
+            <span
+                className={
+                    "online-indicator " +
+                    (props.status.status === "online" ? "online" : "offline")
+                }
+            ></span>
+            <span className="name">
+                {props.status.name.toUpperCase()} [
+                {props.status.type.toUpperCase()}]
+            </span>
+            <Icon name="harddisk" />
+            <span className="storagebar">
+                <span
+                    className="bar"
+                    style={{
+                        width:
+                            100 * (props.status.used / props.status.maxdisk) +
+                            "%",
+                    }}
+                ></span>
+            </span>
+        </div>
+    );
+}
+
+function MachineItem(props = { status: null }) {
+    return (
+        <div className="item-machine paper-light">
+            <Icon
+                name={
+                    props.status.type === "qemu"
+                        ? "monitor_multiple"
+                        : "hexagon"
+                }
+            />
+            <span
+                className={
+                    "online-indicator " +
+                    (props.status.status === "running" ? "online" : "offline")
+                }
+            ></span>
+            <span className="name">
+                {props.status.name.toUpperCase()}/{props.status.vmid}
+            </span>
+            <Icon name="server" />
+            <span className="node noselect">
+                [ {props.status.node.toUpperCase()} ]
             </span>
         </div>
     );
@@ -177,11 +240,7 @@ export default function Index() {
                             " LXC)"
                         }
                     />
-                    <InfoItem
-                        icon="hexagon_multiple"
-                        title="# Services"
-                        value={0}
-                    />
+                    <InfoItem icon="cards" title="# Services" value={0} />
                 </DashboardItem>
                 <DashboardItem name="nodes" displayName="Nodes" icon="server">
                     {Object.values(summary.nodes || {}).map((v, i, a) => (
@@ -192,16 +251,27 @@ export default function Index() {
                     name="storages"
                     displayName="Storages"
                     icon="harddisk"
-                ></DashboardItem>
+                >
+                    {Object.values(summary.storages || {}).map((v, i, a) => (
+                        <StorageItem status={v} />
+                    ))}
+                </DashboardItem>
                 <DashboardItem
                     name="rawvms"
                     displayName="VMs"
                     icon="monitor_multiple"
-                ></DashboardItem>
+                >
+                    {Object.values(summary.qemu || {}).map((v, i, a) => (
+                        <MachineItem status={v} />
+                    ))}
+                    {Object.values(summary.lxc || {}).map((v, i, a) => (
+                        <MachineItem status={v} />
+                    ))}
+                </DashboardItem>
                 <DashboardItem
                     name="services"
                     displayName="Services"
-                    icon="hexagon_multiple"
+                    icon="cards"
                 ></DashboardItem>
             </div>
             <div

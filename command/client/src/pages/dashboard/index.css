@@ -141,6 +141,7 @@
 }
 
 /* Node Box */
+
 .dashboard .dash-content .index-item.nodes .item-node {
     background-color: var(--b);
     color: var(--bt);
@@ -153,8 +154,14 @@
     box-sizing: border-box;
     height: 48px;
     font-family: "Courier New", Courier, monospace;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
-.dashboard .dash-content .index-item.info .item-node:last-child {
+.dashboard .dash-content .index-item.nodes .item-node:hover {
+    background-color: var(--bd);
+}
+.dashboard .dash-content .index-item.nodes .item-node:last-child {
     margin-bottom: 25px;
 }
 .dashboard .dash-content .index-item.nodes .item-node .online-indicator {
@@ -214,4 +221,165 @@
     font-family: "Courier New", Courier, monospace;
     bottom: 3px;
     left: 131px;
+}
+
+/* Storage Box */
+
+.dashboard .dash-content .index-item.storages .item-storage {
+    background-color: var(--b);
+    color: var(--bt);
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 5px;
+    position: relative;
+    display: block;
+    width: calc(100% - 10px);
+    box-sizing: border-box;
+    height: 48px;
+    font-family: "Courier New", Courier, monospace;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.dashboard .dash-content .index-item.storages .item-storage:hover {
+    background-color: var(--bd);
+}
+.dashboard .dash-content .index-item.storages .item-storage:last-child {
+    margin-bottom: 25px;
+}
+.dashboard .dash-content .index-item.storages .item-storage .online-indicator {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+.dashboard
+    .dash-content
+    .index-item.storages
+    .item-storage
+    .online-indicator.online {
+    background-color: #6ac222;
+    border: 2px solid #60b11f;
+}
+.dashboard
+    .dash-content
+    .index-item.storages
+    .item-storage
+    .online-indicator.offline {
+    background-color: #d42020;
+    border: 2px solid #c01c1c;
+}
+.dashboard .dash-content .index-item.storages .item-storage .name {
+    position: absolute;
+    top: 5px;
+    left: 26px;
+    font-size: 16px;
+    font-family: "Courier New", Courier, monospace;
+}
+.dashboard .dash-content .index-item.storages .item-storage .nf {
+    color: var(--bt);
+    font-size: 16px;
+    position: absolute;
+}
+.dashboard .dash-content .index-item.storages .item-storage .nf-mdi-harddisk {
+    bottom: 5px;
+    left: 5px;
+}
+.dashboard .dash-content .index-item.storages .item-storage .storagebar {
+    position: absolute;
+    bottom: 7px;
+    left: 26px;
+    background-color: var(--bd);
+    display: inline-block;
+    width: calc(100% - 31px);
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.dashboard .dash-content .index-item.storages .item-storage .storagebar .bar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: inline-block;
+    height: 100%;
+    background-color: var(--pl);
+}
+
+/* VM Box */
+
+.dashboard .dash-content .index-item.rawvms .item-machine {
+    background-color: var(--b);
+    color: var(--bt);
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 5px;
+    position: relative;
+    display: block;
+    width: calc(100% - 10px);
+    box-sizing: border-box;
+    height: 48px;
+    font-family: "Courier New", Courier, monospace;
+    margin-bottom: 5px;
+}
+.dashboard .dash-content .index-item.rawvms .item-machine:last-child {
+    margin-bottom: 25px;
+}
+.dashboard .dash-content .index-item.rawvms .item-machine .online-indicator {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+.dashboard
+    .dash-content
+    .index-item.rawvms
+    .item-machine
+    .online-indicator.online {
+    background-color: #6ac222;
+    border: 2px solid #60b11f;
+}
+.dashboard
+    .dash-content
+    .index-item.rawvms
+    .item-machine
+    .online-indicator.offline {
+    background-color: #d42020;
+    border: 2px solid #c01c1c;
+}
+.dashboard .dash-content .index-item.rawvms .item-machine .name {
+    position: absolute;
+    top: 5px;
+    left: 26px;
+    font-size: 16px;
+    font-family: "Courier New", Courier, monospace;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    width: calc(100% - 54px);
+    overflow: hidden;
+}
+.dashboard .dash-content .index-item.rawvms .item-machine .nf {
+    color: var(--bt);
+    font-size: 16px;
+    position: absolute;
+}
+.dashboard .dash-content .index-item.rawvms .item-machine .nf-mdi-server {
+    bottom: 5px;
+    left: 5px;
+}
+.dashboard .dash-content .index-item.rawvms .item-machine .node {
+    color: var(--bt);
+    font-size: 14px;
+    position: absolute;
+    font-family: "Courier New", Courier, monospace;
+    bottom: 3px;
+    left: 26px;
 }

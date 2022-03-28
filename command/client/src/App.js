@@ -8,6 +8,7 @@ import { get } from "./utilities/api";
 import Dashboard from "./pages/dashboard/dashboard";
 import StorageDashboard from "./pages/dashboard/storageDashboard";
 import Index from "./pages/dashboard/index";
+import CreateService from "./pages/service/serviceCreate";
 
 function App() {
     useEffect(() => {
@@ -34,6 +35,9 @@ function App() {
                             path="storage/:node"
                             element={<StorageDashboard />}
                         />
+                    </Route>
+                    <Route path="/create/" element={<Layout />}>
+                        <Route path="service" element={<CreateService />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

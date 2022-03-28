@@ -36,3 +36,28 @@ img.noselect,
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
+.btn-add {
+    position: absolute;
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    background-color: var(--p);
+    color: var(--pt);
+    border-radius: 50%;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.btn-add:hover {
+    background-color: var(--pd);
+}
+.btn-add .nf {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 20px;
+    color: var(--pt);
+    transform: translate(-50%, -50%);
+}

@@ -11,12 +11,14 @@ from util import *
 from login_endpoint import router as loginRouter
 from status_endpoint import router as statusRouter
 from storage_endpoint import router as storageRouter
+from service_endpoint import router as serviceRouter
 
 app = FastAPI()
 
 app.include_router(loginRouter, tags=["login"])
 app.include_router(statusRouter, tags=["status"])
 app.include_router(storageRouter, tags=["storage"])
+app.include_router(serviceRouter, tags=["service"])
 
 
 @app.middleware("http")

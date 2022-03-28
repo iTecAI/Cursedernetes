@@ -7,3 +7,4 @@ proxmoxer
 fastapi-restful
 requests
 pydantic
+bs4

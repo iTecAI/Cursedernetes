@@ -22,6 +22,9 @@
     white-space: nowrap;
     overflow: visible;
 }
+.field.submessage {
+    height: 48px;
+}
 
 .field .label {
     position: relative;
@@ -76,12 +79,29 @@
     margin-top: 2px;
     transition: background-color 0.2s, border-color 0.2s;
 }
+.field.invalid .field-input .field-entry {
+    border-color: #ff3333;
+}
 .field .field-input > .field-entry:focus {
     outline: none;
 }
 .field .field-input .field-entry:hover {
     background-color: var(--bl);
     border-color: var(--p);
+}
+.field .field-input .submessage {
+    display: none;
+}
+.field.submessage.invalid .field-input .submessage {
+    color: #ff3333;
+}
+.field.submessage .field-input .submessage {
+    position: absolute;
+    bottom: -18px;
+    left: 20px;
+    font-size: 10px;
+    display: inline-block;
+    font-family: "Courier New", Courier, monospace;
 }
 
 .form-button {

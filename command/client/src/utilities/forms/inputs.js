@@ -9,6 +9,8 @@ function FieldWrapper(
         children: [],
         fieldType: "",
         iconClass: null,
+        valid: true,
+        submessage: "",
     }
 ) {
     return (
@@ -16,7 +18,9 @@ function FieldWrapper(
             className={
                 "field" +
                 (props.fieldType ? " " + props.fieldType : "") +
-                (props.icon ? " icon" : "")
+                (props.icon ? " icon" : "") +
+                (props.valid ? "" : " invalid") +
+                (props.submessage ? " submessage" : "")
             }
             data-name={props.fieldName}
         >
@@ -26,7 +30,10 @@ function FieldWrapper(
                 ) : null}
                 <span className="label-name">{props.label}</span>
             </div>
-            <div className="field-input">{props.children}</div>
+            <div className="field-input">
+                <div className="submessage">{props.submessage}</div>
+                {props.children}
+            </div>
         </div>
     );
 }
@@ -41,6 +48,7 @@ export default class Field extends Component {
             icon: null,
             iconClass: null,
             initialValue: null,
+            validator: null,
         }
     ) {
         super(props);
@@ -48,12 +56,25 @@ export default class Field extends Component {
             this.setState({ value: e.target.value });
             return e.target.value;
         }.bind(this);
-        this.handleChange = function (e) {
+        this.handleChange = async function (e) {
             var value = this.getInput(e);
             this.state.values[this.state.fieldName] = value;
-            this.props.onChange(this.state.values);
+            var valid;
+            if (props.validator) {
+                valid = await props.validator(value);
+            } else {
+                valid = true;
+            }
+            if (valid === true) {
+                this.setState({ valid: true, validMessage: "" });
+                this.props.onChange(this.state.values);
+            } else {
+                this.setState({ valid: false, validMessage: valid });
+            }
         }.bind(this);
         this.state = {
+            valid: true,
+            validMessage: "",
             values: props.values,
             fieldName: props.fieldName,
             label: props.label,
@@ -71,6 +92,8 @@ export default class Field extends Component {
                 label={this.state.label}
                 icon={this.state.icon}
                 iconClass={this.state.iconClass}
+                valid={this.state.valid}
+                submessage={this.state.validMessage}
             >
                 <input
                     onChange={this.handleChange}
@@ -95,6 +118,8 @@ export class Input extends Field {
                 label={this.state.label}
                 icon={this.state.icon}
                 iconClass={this.state.iconClass}
+                valid={this.state.valid}
+                submessage={this.state.validMessage}
             >
                 <input
                     onChange={this.handleChange}

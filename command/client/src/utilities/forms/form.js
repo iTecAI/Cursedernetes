@@ -28,7 +28,7 @@ export default class Form extends Component {
         var classes = this.state.classes || [];
         classes.push("form");
         return (
-            <div className={classes}>
+            <div className={classes.join(" ")}>
                 {Children.map(this.props.children, (child) => {
                     return cloneElement(child, {
                         values: this.state.values,

@@ -272,7 +272,15 @@ export default function Index() {
                     name="services"
                     displayName="Services"
                     icon="cards"
-                ></DashboardItem>
+                >
+                    <div className="service-list"></div>
+                    <button
+                        className="btn-add add-service paper"
+                        onClick={() => window.open("/create/service", "_self")}
+                    >
+                        <Icon name="plus" />
+                    </button>
+                </DashboardItem>
             </div>
             <div
                 className="view-selector noselect noscroll"

@@ -7,6 +7,7 @@ export default class Form extends Component {
             extraClasses: [],
             onSubmit: () => {},
             onChange: () => {},
+            onMount: () => {},
             children: [],
             submitButton: <></>,
         }
@@ -18,10 +19,15 @@ export default class Form extends Component {
         };
         this.handleSubmit = props.onSubmit || (() => {});
         this.handleChange = props.onChange || (() => {});
+        this.handleUpdate = props.onUpdate || (() => {});
         this.wrapSubmit = function (e) {
             // console.log(e, this.state.values);
             this.handleSubmit(this.state.values);
         }.bind(this);
+    }
+
+    componentDidUpdate() {
+        this.handleUpdate(this.state.values);
     }
 
     render() {

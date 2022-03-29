@@ -82,6 +82,7 @@ export default class Field extends Component {
             iconClass: props.iconClass,
             value: props.initialValue || "",
         };
+        this.state.values[this.state.fieldName] = this.state.value;
     }
 
     render() {
@@ -127,6 +128,130 @@ export class Input extends Field {
                     placeholder={this.props.placeholder}
                     type={this.props.type || "text"}
                     className="field-entry"
+                />
+            </FieldWrapper>
+        );
+    }
+}
+
+export class Select extends Field {
+    constructor(props) {
+        super(props);
+        if (props.children.length > 0) {
+            this.setState({ value: props.children[0].props.value });
+            var vals = this.state.values;
+            vals[this.state.fieldName] = props.children[0].props.value;
+            this.setState({ values: vals });
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.children.length > 0 && this.state.value === "") {
+            this.setState({ value: this.props.children[0].props.value });
+            var vals = this.state.values;
+            vals[this.state.fieldName] = this.props.children[0].props.value;
+            this.setState({ values: vals });
+        }
+    }
+
+    render() {
+        return (
+            <FieldWrapper
+                fieldName={this.state.fieldName}
+                fieldType="select"
+                label={this.state.label}
+                icon={this.state.icon}
+                iconClass={this.state.iconClass}
+                valid={this.state.valid}
+                submessage={this.state.validMessage}
+            >
+                <select
+                    onChange={this.handleChange}
+                    value={this.state.value}
+                    className="field-entry"
+                >
+                    {this.props.children}
+                </select>
+            </FieldWrapper>
+        );
+    }
+}
+
+export function HLine() {
+    return <span className="form-element hline"></span>;
+}
+
+export class Range extends Field {
+    constructor(props = { min: 0, max: 0, step: 1 }) {
+        super(props);
+        this.setState({
+            value: this.state.value === "" ? 0 : this.state.value,
+        });
+        this.state.values[this.state.fieldName] = this.state.value;
+    }
+
+    componentDidUpdate() {
+        if (this.state.value > this.props.max) {
+            this.setState({ value: this.props.max });
+        }
+        if (this.state.value < this.props.min) {
+            this.setState({ value: this.props.min });
+        }
+        if (isNaN(Number(this.state.value))) {
+            this.setState({ value: this.props.min });
+        }
+    }
+
+    render() {
+        return (
+            <FieldWrapper
+                fieldName={this.state.fieldName}
+                fieldType="range"
+                label={this.state.label}
+                icon={this.state.icon}
+                iconClass={this.state.iconClass}
+                valid={this.state.valid}
+                submessage={this.state.validMessage}
+            >
+                <input
+                    onChange={this.handleChange}
+                    value={this.state.value}
+                    type="range"
+                    className="field-entry"
+                    min={this.props.min}
+                    max={this.props.max}
+                    step={this.props.step}
+                />
+                <div className="range-shroud">
+                    <div className="range-inner">
+                        <span
+                            className="marker"
+                            style={{
+                                left:
+                                    (this.state.value /
+                                        (this.props.max - this.props.min)) *
+                                        100 +
+                                    "%",
+                            }}
+                        />
+                        <span
+                            className="fill"
+                            style={{
+                                width:
+                                    "calc(" +
+                                    (this.state.value /
+                                        (this.props.max - this.props.min)) *
+                                        100 +
+                                    "% + 20px)",
+                            }}
+                        />
+                    </div>
+                </div>
+                <input
+                    onChange={this.handleChange}
+                    value={this.state.value || 0}
+                    type="text"
+                    className="value-display"
                 />
             </FieldWrapper>
         );

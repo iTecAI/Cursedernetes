@@ -1,5 +1,5 @@
 import Form from "../../utilities/forms/form";
-import { Input } from "../../utilities/forms/inputs";
+import { HLine, Input, Range, Select } from "../../utilities/forms/inputs";
 import "./serviceCreate.css";
 import { useEffect, useState } from "react";
 import { get } from "../../utilities/api";
@@ -18,6 +18,7 @@ function isValidURL(str) {
 export default function CreateService() {
     const [summary, setSummary] = useState({});
     const [preview, setPreview] = useState(null);
+    const [values, setValues] = useState({});
 
     useEffect(() => {
         function getData() {
@@ -55,6 +56,15 @@ export default function CreateService() {
                                 <Icon name="check" /> Create
                             </button>
                         }
+                        onChange={(v) => {
+                            setValues(v);
+                        }}
+                        onUpdate={(v) => {
+                            setValues(v);
+                        }}
+                        onSubmit={(v) => {
+                            console.log(v);
+                        }}
                     >
                         <Input
                             placeholder="https://"
@@ -95,6 +105,58 @@ export default function CreateService() {
                                 }
                             }}
                         />
+                        <HLine />
+                        <Select fieldName="node" label="Node" icon="server">
+                            {Object.values(summary.nodes || {}).map(
+                                (v, i, a) => (
+                                    <option value={v.id} key={v.id}>
+                                        {v.node}
+                                    </option>
+                                )
+                            )}
+                        </Select>
+                        <Input
+                            placeholder="New Service"
+                            type="text"
+                            fieldName="service_name"
+                            label="Service Name"
+                            icon="pencil"
+                        />
+                        <Range
+                            fieldName="cpuCores"
+                            label="CPU Cores"
+                            icon="memory"
+                            min={0}
+                            max={
+                                (((summary.nodes || {})[values.node] || {})
+                                    .maxcpu || 0) / 2
+                            }
+                            step={0.01}
+                            initialValue={0.05}
+                        />
+                        <Range
+                            fieldName="cpuUnits"
+                            label="CPU Priority"
+                            icon="priority_high"
+                            min={0}
+                            max={100000}
+                            step={1}
+                            initialValue={1024}
+                        />
+                        <Range
+                            fieldName="memory"
+                            label="Memory (MB)"
+                            icon="chip"
+                            min={16}
+                            max={
+                                (((summary.nodes || {})[values.node] || {})
+                                    .maxmem || 0) /
+                                    1000000 -
+                                1
+                            }
+                            step={1}
+                            initialValue={64}
+                        />
                     </Form>
                 </div>
                 <div className="preview">
@@ -104,7 +166,7 @@ export default function CreateService() {
                             <img
                                 className="prev-img noselect"
                                 src={preview.image}
-                                alt="Preview image"
+                                alt="Preview"
                             />
                             <span className="prev-desc">
                                 {preview.description}
